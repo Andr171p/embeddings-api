@@ -11,12 +11,12 @@ app = FastAPI()
 
 
 class EmbeddingRequest(BaseModel):
-    text: str = Field(..., max_length=3000)
+    texts: list[str] = Field(..., max_length=3000)
 
 
 @app.post("/embeddings")
 def get_embeddings(request: EmbeddingRequest):
-    embeddings = model.encode(request.text, normalize_embeddings=False)
+    embeddings = model.encode_document(request.texts, normalize_embeddings=False)
     return {"embeddings": embeddings.tolist()}
 
 
